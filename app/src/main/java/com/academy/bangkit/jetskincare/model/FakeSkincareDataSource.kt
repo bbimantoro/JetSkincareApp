@@ -49,9 +49,9 @@ object FakeSkincareDataSource {
         Skincare(
             7,
             R.drawable.product_7,
-            "NPURE Cica Clear Pad",
+            "SKINTIFIC Mugwort Clay Mask Stick for Kulit Sensitif 40g",
             R.string.desc_product_7,
-            "99.000"
+            "79.000"
         ),
         Skincare(
             8,
