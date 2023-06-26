@@ -16,13 +16,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.academy.bangkit.jetskincare.ui.navigation.NavigationItem
 import com.academy.bangkit.jetskincare.ui.navigation.Screen
 import com.academy.bangkit.jetskincare.ui.screen.cart.CartScreen
+import com.academy.bangkit.jetskincare.ui.screen.detail.DetailScreen
 import com.academy.bangkit.jetskincare.ui.screen.home.HomeScreen
 import com.academy.bangkit.jetskincare.ui.screen.profil.ProfileScreen
 
@@ -41,7 +44,9 @@ fun JetSkincareApp(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screen.Home.route) {
-                HomeScreen()
+                HomeScreen(navigateToDetail = { id ->
+                    navController.navigate(Screen.DetailSkincare.createRoute(id))
+                })
             }
             composable(Screen.Cart.route) {
                 CartScreen()
@@ -49,6 +54,22 @@ fun JetSkincareApp(
 
             composable(Screen.Profile.route) {
                 ProfileScreen()
+            }
+
+            composable(
+                route = Screen.DetailSkincare.route,
+                arguments = listOf(navArgument("id") {
+                    type = NavType.IntType
+                }),
+            ) {
+                val id = it.arguments?.getInt("id") ?: -1
+                DetailScreen(
+                    id = id,
+                    navigateBack = {
+                        navController.navigateUp()
+                    },
+                    navigateToCart = {},
+                )
             }
         }
     }

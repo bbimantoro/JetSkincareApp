@@ -6,17 +6,36 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
 class SkincareRepository {
-    private val orderSkincare = mutableListOf<OrderSkincare>()
+    private val skincare = mutableListOf<OrderSkincare>()
 
     init {
-        if (orderSkincare.isEmpty()) {
+        if (skincare.isEmpty()) {
             FakeSkincareDataSource.dummySkincare.forEach {
-                orderSkincare.add(OrderSkincare(it, 0))
+                skincare.add(OrderSkincare(it, 0))
             }
         }
     }
 
-    fun getAllSkincare(): Flow<List<OrderSkincare>> = flowOf(orderSkincare)
+    fun getAllSkincare(): Flow<List<OrderSkincare>> = flowOf(skincare)
+
+    fun getOrderSkincareById(id: Int): OrderSkincare {
+        return skincare.first {
+            it.skincare.id == id
+        }
+    }
+
+    fun updateOrderSkincare(id: Int, newCount: Int): Flow<Boolean> {
+        val index = skincare.indexOfFirst { it.skincare.id == id }
+        val result = if (index > 0) {
+            val orderSkincare = skincare[index]
+            skincare[index] =
+                orderSkincare.copy(skincare = orderSkincare.skincare, count = newCount)
+            true
+        } else {
+            false
+        }
+        return flowOf(result)
+    }
 
     companion object {
         @Volatile

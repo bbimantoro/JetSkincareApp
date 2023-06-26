@@ -19,9 +19,10 @@ import com.academy.bangkit.jetskincare.ui.components.SkincareItem
 
 @Composable
 fun HomeScreen(
+    modifier: Modifier = Modifier,
     viewModel: HomeViewModel =
         viewModel(factory = ViewModelFactory(Injection.provideRepository())),
-    modifier: Modifier = Modifier
+    navigateToDetail: (Int) -> Unit,
 ) {
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->
         when (uiState) {
@@ -30,7 +31,11 @@ fun HomeScreen(
             }
 
             is UiState.Success -> {
-                HomeContent(orderSkincare = uiState.data, modifier = modifier)
+                HomeContent(
+                    orderSkincare = uiState.data,
+                    modifier = modifier,
+                    navigateToDetail = navigateToDetail,
+                )
             }
 
             is UiState.Error -> {}
@@ -42,21 +47,22 @@ fun HomeScreen(
 fun HomeContent(
     orderSkincare: List<OrderSkincare>,
     modifier: Modifier = Modifier,
+    navigateToDetail: (Int) -> Unit,
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(160.dp),
-        contentPadding = PaddingValues(12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        columns = GridCells.Adaptive(140.dp),
+        contentPadding = PaddingValues(14.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp),
+        horizontalArrangement = Arrangement.spacedBy(14.dp),
         modifier = modifier
     ) {
         items(orderSkincare) { data ->
             SkincareItem(
-                image = data.skincare.image,
+                thumbnail = data.skincare.thumbnail,
                 name = data.skincare.name,
                 price = data.skincare.price,
                 modifier = Modifier.clickable {
-
+                    navigateToDetail(data.skincare.id)
                 }
             )
         }

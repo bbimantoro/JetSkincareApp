@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,21 +27,24 @@ import com.academy.bangkit.jetskincare.ui.theme.JetSkincareTheme
 
 @Composable
 fun SkincareItem(
-    image: Int,
-    name: String, price: String,
+    thumbnail: Int,
+    name: String,
+    price: String,
     modifier: Modifier = Modifier
 ) {
     Card(
-        shape = RoundedCornerShape(8.dp),
         modifier = modifier.width(140.dp),
+        shape = RoundedCornerShape(8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.background
+        ),
     ) {
         Column {
             Image(
-                painter = painterResource(image),
+                painter = painterResource(thumbnail),
                 contentDescription = stringResource(id = R.string.content_desc_product_image),
-                contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .height(120.dp)
+                    .fillMaxWidth()
             )
             Column(modifier = Modifier.padding(12.dp)) {
                 Text(
@@ -53,7 +57,7 @@ fun SkincareItem(
                 Text(
                     text = stringResource(id = R.string.price, price),
                     style = MaterialTheme.typography.titleSmall.copy(
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.ExtraBold
                     )
                 )
             }
@@ -61,12 +65,12 @@ fun SkincareItem(
     }
 }
 
-@Preview(showBackground = true)
+@Preview()
 @Composable
 fun SkincareItemPreview() {
     JetSkincareTheme {
         SkincareItem(
-            image = R.drawable.product_1,
+            thumbnail = R.drawable.product_1,
             "SKINTIFIC MSH Niacinamide Brightening Moisturizer Moisture Gel Glowing",
             "24.000"
         )

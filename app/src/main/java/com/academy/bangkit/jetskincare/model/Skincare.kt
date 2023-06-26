@@ -5,8 +5,8 @@ import androidx.annotation.StringRes
 
 data class Skincare(
     val id: Int,
-    @DrawableRes val image: Int,
+    val thumbnail: Int,
     val name: String,
-    @StringRes val desc: Int,
+    val desc: String,
     val price: String
 )
