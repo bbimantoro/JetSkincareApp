@@ -22,6 +22,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.academy.bangkit.jetskincare.ui.components.BottomBar
 import com.academy.bangkit.jetskincare.ui.navigation.NavigationItem
 import com.academy.bangkit.jetskincare.ui.navigation.Screen
 import com.academy.bangkit.jetskincare.ui.screen.cart.CartScreen
@@ -34,8 +35,15 @@ fun JetSkincareApp(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
     Scaffold(
-        bottomBar = { BottomBar(navController) },
+        bottomBar = {
+            if (currentRoute != Screen.DetailSkincare.route) {
+                BottomBar(navController)
+            }
+        },
         modifier = modifier
     ) { innerPadding ->
         NavHost(
@@ -68,51 +76,19 @@ fun JetSkincareApp(
                     navigateBack = {
                         navController.navigateUp()
                     },
-                    navigateToCart = {},
+                    navigateToCart = {
+                        navController.popBackStack()
+                        navController.navigate(Screen.Cart.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
                 )
             }
         }
     }
 }
 
-@Composable
-private fun BottomBar(navController: NavHostController, modifier: Modifier = Modifier) {
-    NavigationBar(modifier = modifier) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
-
-        val navigationItems = listOf(
-            NavigationItem(
-                title = stringResource(id = R.string.menu_home),
-                icon = Icons.Default.Home,
-                screen = Screen.Home
-            ),
-            NavigationItem(
-                title = stringResource(id = R.string.menu_cart),
-                icon = Icons.Default.ShoppingCart,
-                screen = Screen.Cart
-            ),
-            NavigationItem(
-                title = stringResource(id = R.string.menu_profile),
-                icon = Icons.Default.AccountCircle,
-                screen = Screen.Profile
-            ),
-        )
-        navigationItems.map { item ->
-            NavigationBarItem(
-                icon = { Icon(imageVector = item.icon, contentDescription = item.title) },
-                label = { Text(text = item.title) },
-                selected = currentRoute == item.screen.route,
-                onClick = {
-                    navController.navigate(item.screen.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
-                        restoreState = true
-                        launchSingleTop = true
-                    }
-                }
-            )
-        }
-    }
-}

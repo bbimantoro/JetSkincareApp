@@ -22,10 +22,14 @@ import com.academy.bangkit.jetskincare.ui.theme.JetSkincareTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Search(modifier: Modifier = Modifier) {
+fun Search(
+    query: String,
+    modifier: Modifier = Modifier,
+    onQueryChange: (String) -> Unit,
+) {
     SearchBar(
-        query = "",
-        onQueryChange = {},
+        query = query,
+        onQueryChange = onQueryChange,
         onSearch = {},
         active = false,
         onActiveChange = {},
@@ -58,6 +62,6 @@ fun Search(modifier: Modifier = Modifier) {
 @Composable
 fun SearchPreview() {
     JetSkincareTheme {
-        Search()
+        Search(query = "", onQueryChange = {})
     }
 }

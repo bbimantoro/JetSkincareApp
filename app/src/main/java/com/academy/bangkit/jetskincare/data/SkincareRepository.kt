@@ -2,39 +2,56 @@ package com.academy.bangkit.jetskincare.data
 
 import com.academy.bangkit.jetskincare.model.FakeSkincareDataSource
 import com.academy.bangkit.jetskincare.model.OrderSkincare
+import com.academy.bangkit.jetskincare.model.Skincare
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 
 class SkincareRepository {
-    private val skincare = mutableListOf<OrderSkincare>()
+    private val listSkincare = mutableListOf<OrderSkincare>()
 
     init {
-        if (skincare.isEmpty()) {
+        if (listSkincare.isEmpty()) {
             FakeSkincareDataSource.dummySkincare.forEach {
-                skincare.add(OrderSkincare(it, 0))
+                listSkincare.add(OrderSkincare(it, 0))
             }
         }
     }
 
-    fun getAllSkincare(): Flow<List<OrderSkincare>> = flowOf(skincare)
+    fun getAllSkincare(): Flow<List<OrderSkincare>> = flowOf(listSkincare)
 
-    fun getOrderSkincareById(id: Int): OrderSkincare {
-        return skincare.first {
-            it.skincare.id == id
-        }
+    fun getOrderSkincareById(id: Int): OrderSkincare = listSkincare.first {
+        it.skincare.id == id
     }
 
+
     fun updateOrderSkincare(id: Int, newCount: Int): Flow<Boolean> {
-        val index = skincare.indexOfFirst { it.skincare.id == id }
+        val index = listSkincare.indexOfFirst { it.skincare.id == id }
         val result = if (index > 0) {
-            val orderSkincare = skincare[index]
-            skincare[index] =
+            val orderSkincare = listSkincare[index]
+            listSkincare[index] =
                 orderSkincare.copy(skincare = orderSkincare.skincare, count = newCount)
             true
         } else {
             false
         }
         return flowOf(result)
+    }
+
+    fun getAddedOrderSkincare(): Flow<List<OrderSkincare>> {
+        return getAllSkincare().map { skincare ->
+            skincare.filter {
+                it.count != 0
+            }
+        }
+    }
+
+    fun searchSkincare(query: String): Flow<List<OrderSkincare>> {
+        return getAllSkincare().map { skincare ->
+            skincare.filter {
+                it.skincare.name.contains(query, ignoreCase = true)
+            }
+        }
     }
 
     companion object {
