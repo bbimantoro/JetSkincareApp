@@ -21,13 +21,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.academy.bangkit.jetskincare.R
 import com.academy.bangkit.jetskincare.ui.theme.JetSkincareTheme
-import com.academy.bangkit.jetskincare.ui.withCurrencyFormat
 
 @Composable
 fun SkincareItem(
     thumbnail: Int,
     name: String,
-    price: String,
+    price: Int,
     modifier: Modifier = Modifier
 ) {
     ElevatedCard(
@@ -53,7 +52,7 @@ fun SkincareItem(
                     modifier = Modifier.paddingFromBaseline(bottom = 12.dp)
                 )
                 Text(
-                    text = stringResource(id = R.string.price, price.withCurrencyFormat()),
+                    text = stringResource(id = R.string.price, price),
                     style = MaterialTheme.typography.titleSmall.copy(
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -70,7 +69,7 @@ fun SkincareItemPreview() {
         SkincareItem(
             thumbnail = R.drawable.product_1,
             "SKINTIFIC MSH Niacinamide Brightening Moisturizer Moisture Gel Glowing",
-            "24.000"
+            129000
         )
     }
 }

@@ -1,19 +1,10 @@
 package com.academy.bangkit.jetskincare
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -23,7 +14,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.academy.bangkit.jetskincare.ui.components.BottomBar
-import com.academy.bangkit.jetskincare.ui.navigation.NavigationItem
 import com.academy.bangkit.jetskincare.ui.navigation.Screen
 import com.academy.bangkit.jetskincare.ui.screen.cart.CartScreen
 import com.academy.bangkit.jetskincare.ui.screen.detail.DetailScreen

@@ -5,5 +5,5 @@ data class Skincare(
     val thumbnail: Int,
     val name: String,
     val desc: String,
-    val price: String
+    val price: Int
 )

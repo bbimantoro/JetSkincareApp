@@ -1,7 +1,6 @@
 package com.academy.bangkit.jetskincare.ui.screen.detail
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,6 +25,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,11 +35,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.academy.bangkit.jetskincare.R
 import com.academy.bangkit.jetskincare.di.Injection
 import com.academy.bangkit.jetskincare.ui.ViewModelFactory
@@ -88,19 +87,19 @@ fun DetailScreen(
 
 @Composable
 fun DetailContent(
+    modifier: Modifier = Modifier,
     @DrawableRes thumbnail: Int,
     name: String,
     desc: String,
-    price: String,
+    price: Int,
     count: Int,
-    modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
     onAddToCart: (count: Int) -> Unit,
 ) {
-    var totalPrice by remember {
+    var totalPrice by rememberSaveable {
         mutableStateOf(0)
     }
-    var orderCount by remember {
+    var orderCount by rememberSaveable {
         mutableStateOf(count)
     }
 
@@ -178,10 +177,7 @@ fun DetailContent(
                         .padding(bottom = 16.dp)
                 )
 
-                totalPrice = price.toIntOrNull()?.let {
-                    it * orderCount
-                } ?: 0
-
+                totalPrice = price * orderCount
                 OrderButton(
                     text = stringResource(id = R.string.add_to_cart, totalPrice),
                     enabled = orderCount > 0,
@@ -199,7 +195,7 @@ fun DetailContentPreview() {
         DetailContent(
             thumbnail = R.drawable.product_1,
             name = "SKINTIFIC MSH Niacinamide Brightening Moisturizer Moisture Gel Glowing",
-            price = "129.000",
+            price = 129000,
             desc = "Skintific MSH Niacinamide Brightening Moisture Gel MSH Niacinamide Brightening Moisture Gel dengan tekstur seringan udara, dapat menyerap dengan cepat dan mengontrol minyak. Diformulasikan dengan Novel MSH Niacinamide ekslusif SKINTIFIC yang dikombinasikan dengan dua bahan pencerah yang ringan dan paling efektif yaitu Alpha Arbutin dan Tranexamic Acid, yang mampu mencerahkan dengan signifikan. MSH Niacinamide terbukti secara klinis 10 kali lebih efektif dibandingkan niacinamide biasa dalam mengurangi hiperpigmentasi, meredakan kemerahan dan memperbaiki elastisitas kulit. Diperkaya dengan Centella Asiatica dan 5X Ceramide, tidak menyebabkan iritasi serta memberikan efek menenangkan kulit sekaligus memperbaiki dan menjaga skin barrier.",
             count = 1,
             onBackClick = {},

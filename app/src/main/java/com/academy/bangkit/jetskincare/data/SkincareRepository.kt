@@ -2,7 +2,6 @@ package com.academy.bangkit.jetskincare.data
 
 import com.academy.bangkit.jetskincare.model.FakeSkincareDataSource
 import com.academy.bangkit.jetskincare.model.OrderSkincare
-import com.academy.bangkit.jetskincare.model.Skincare
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -27,7 +26,7 @@ class SkincareRepository {
 
     fun updateOrderSkincare(id: Int, newCount: Int): Flow<Boolean> {
         val index = listSkincare.indexOfFirst { it.skincare.id == id }
-        val result = if (index > 0) {
+        val result = if (index >= 0) {
             val orderSkincare = listSkincare[index]
             listSkincare[index] =
                 orderSkincare.copy(skincare = orderSkincare.skincare, count = newCount)

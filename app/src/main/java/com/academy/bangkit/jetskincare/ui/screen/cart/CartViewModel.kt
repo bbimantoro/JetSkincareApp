@@ -19,7 +19,7 @@ class CartViewModel(
             _uiState.value = UiState.Loading
             skincareRepository.getAddedOrderSkincare()
                 .collect { skincare ->
-                    val totalPrice = skincare.sumOf { it.skincare.price.toInt() * it.count }
+                    val totalPrice = skincare.sumOf { it.skincare.price * it.count }
                     _uiState.value = UiState.Success(CartState(skincare, totalPrice))
                 }
         }

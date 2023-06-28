@@ -29,7 +29,7 @@ fun CartItem(
     id: Int,
     thumbnail: Int,
     name: String,
-    price: String,
+    price: Int,
     count: Int,
     onProductCountChanged: (id: Int, count: Int) -> Unit,
 ) {
@@ -59,10 +59,11 @@ fun CartItem(
                 text = stringResource(id = R.string.price, price),
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.ExtraBold
-                )
+                ),
             )
             ProductCounter(
-                modifier = Modifier.align(Alignment.End),
+                modifier = Modifier
+                    .align(Alignment.End),
                 id = id,
                 orderCount = count,
                 onProductDecreased = { onProductCountChanged(id, count - 1) },
@@ -80,7 +81,7 @@ fun CartItemPreview() {
             id = 1,
             thumbnail = R.drawable.product_1,
             name = "SKINTIFIC MSH Niacinamide Brightening Moisturizer Moisture Gel Glowing",
-            price = "129.000",
+            price = 129000,
             count = 0,
             onProductCountChanged = { _, _ -> },
         )

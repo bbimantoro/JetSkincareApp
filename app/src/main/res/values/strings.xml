@@ -9,8 +9,8 @@
     <string name="section_description">Deskripsi produk</string>
     <string name="content_desc_product_image">Gambar produk</string>
     <string name="content_desc_profile_image">Foto profile</string>
-    <string name="add_to_cart">Tambah ke Keranjang: %d</string>
-    <string name="price">129.000</string>
+    <string name="add_to_cart">Tambah ke Keranjang: Rp. %d</string>
+    <string name="price">Rp. %d</string>
     <string name="back">Kembali</string>
     <string name="total_price">Total Harga: %d</string>
     <string name="counter_decrease">—</string>

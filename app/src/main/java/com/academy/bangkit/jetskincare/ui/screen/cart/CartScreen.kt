@@ -29,7 +29,6 @@ import com.academy.bangkit.jetskincare.ui.components.OrderButton
 
 @Composable
 fun CartScreen(
-    modifier: Modifier = Modifier,
     viewModel: CartViewModel = viewModel(
         factory = ViewModelFactory(Injection.provideRepository())
     )
@@ -85,7 +84,7 @@ fun CartContent(
                     id = item.skincare.id,
                     thumbnail = item.skincare.thumbnail,
                     name = item.skincare.name,
-                    price = item.skincare.price,
+                    price = item.skincare.price * item.count,
                     count = item.count,
                     onProductCountChanged = onProductCountChanged,
                 )
