@@ -26,6 +26,7 @@ import com.academy.bangkit.jetskincare.ui.ViewModelFactory
 import com.academy.bangkit.jetskincare.ui.common.UiState
 import com.academy.bangkit.jetskincare.ui.components.CartItem
 import com.academy.bangkit.jetskincare.ui.components.OrderButton
+import com.academy.bangkit.jetskincare.ui.components.TopAppBar
 
 @Composable
 fun CartScreen(
@@ -63,17 +64,9 @@ fun CartContent(
     onOrderButtonClick: (String) -> Unit,
 ) {
     Column(modifier = modifier.fillMaxSize()) {
-        CenterAlignedTopAppBar(
-            title = {
-                Text(
-                    text = stringResource(id = R.string.menu_cart),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 12.dp),
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center
-                )
-            })
+
+        TopAppBar(title = stringResource(id = R.string.menu_cart))
+
         LazyColumn(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -91,6 +84,7 @@ fun CartContent(
                 Divider()
             }
         }
+
         OrderButton(
             text = stringResource(id = R.string.total_price, state.totalPrice),
             enabled = state.orderSkincare.isNotEmpty(),

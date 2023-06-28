@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.academy.bangkit.jetskincare.R
+import com.academy.bangkit.jetskincare.ui.components.TopAppBar
 import com.academy.bangkit.jetskincare.ui.theme.JetSkincareTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,17 +35,8 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxSize()
     ) {
-        CenterAlignedTopAppBar(
-            title = {
-                Text(
-                    text = stringResource(id = R.string.menu_profile),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 12.dp),
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center
-                )
-            })
+        TopAppBar(title = stringResource(id = R.string.menu_profile))
+
         Image(
             painter = painterResource(id = R.drawable.me),
             contentDescription = stringResource(id = R.string.content_desc_profile_image),
@@ -56,6 +48,7 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
                 .size(150.dp)
 
         )
+
         Text(
             text = stringResource(id = R.string.name),
             fontWeight = FontWeight.Bold,
@@ -63,6 +56,7 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
                 .align(Alignment.CenterHorizontally)
                 .padding(top = 14.dp, bottom = 8.dp)
         )
+
         Text(
             text = stringResource(id = R.string.email),
             style = MaterialTheme.typography.titleSmall.copy(

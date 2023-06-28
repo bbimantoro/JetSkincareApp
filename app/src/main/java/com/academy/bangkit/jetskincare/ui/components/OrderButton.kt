@@ -29,7 +29,7 @@ fun OrderButton(
             .fillMaxWidth()
             .height(50.dp)
             .semantics(mergeDescendants = true) {
-                contentDescription = "Keranjang"
+                contentDescription = "Add to cart"
             }
     ) {
         Text(text = text, modifier = Modifier.align(Alignment.CenterVertically))

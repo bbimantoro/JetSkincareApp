@@ -3,7 +3,6 @@ package com.academy.bangkit.jetskincare.ui.screen.home
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -16,6 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -44,7 +44,7 @@ fun HomeScreen(
             }
 
             is UiState.Success -> {
-                Column {
+                Box(modifier = modifier) {
                     Search(query = query, onQueryChange = viewModel::search)
                     HomeContent(
                         orderSkincare = uiState.data,
@@ -72,7 +72,7 @@ fun HomeContent(
             contentPadding = PaddingValues(14.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp),
             horizontalArrangement = Arrangement.spacedBy(14.dp),
-            modifier = modifier
+            modifier = modifier.testTag("SkincareList")
         ) {
             items(orderSkincare) { data ->
                 SkincareItem(
