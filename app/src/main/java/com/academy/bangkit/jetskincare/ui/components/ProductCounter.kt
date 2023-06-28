@@ -26,10 +26,10 @@ import com.academy.bangkit.jetskincare.ui.theme.JetSkincareTheme
 
 @Composable
 fun ProductCounter(
-    id: Int,
+    skincareId: Long,
     orderCount: Int,
-    onProductDecreased: (Int) -> Unit,
-    onProductIncreased: (Int) -> Unit,
+    onProductDecreased: (Long) -> Unit,
+    onProductIncreased: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -52,7 +52,7 @@ fun ProductCounter(
                 fontSize = 20.sp,
                 modifier = Modifier
                     .weight(1f)
-                    .clickable { onProductDecreased(id) }
+                    .clickable { onProductDecreased(skincareId) }
             )
         }
         Text(
@@ -77,7 +77,7 @@ fun ProductCounter(
                 fontSize = 20.sp,
                 modifier = Modifier
                     .weight(1f)
-                    .clickable { onProductIncreased(id) },
+                    .clickable { onProductIncreased(skincareId) },
             )
         }
     }
@@ -89,7 +89,7 @@ fun ProductCounter(
 fun ProductCounterPreview() {
     JetSkincareTheme {
         ProductCounter(
-            id = 1,
+            skincareId = 1,
             orderCount = 0,
             onProductDecreased = {},
             onProductIncreased = {}

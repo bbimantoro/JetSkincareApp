@@ -26,12 +26,12 @@ import com.academy.bangkit.jetskincare.ui.theme.JetSkincareTheme
 @Composable
 fun CartItem(
     modifier: Modifier = Modifier,
-    id: Int,
+    skincareId: Long,
     thumbnail: Int,
     name: String,
     price: Int,
     count: Int,
-    onProductCountChanged: (id: Int, count: Int) -> Unit,
+    onProductCountChanged: (id: Long, count: Int) -> Unit,
 ) {
 
     Row(modifier = modifier.fillMaxWidth()) {
@@ -64,10 +64,10 @@ fun CartItem(
             ProductCounter(
                 modifier = Modifier
                     .align(Alignment.End),
-                id = id,
+                skincareId = skincareId,
                 orderCount = count,
-                onProductDecreased = { onProductCountChanged(id, count - 1) },
-                onProductIncreased = { onProductCountChanged(id, count + 1) }
+                onProductDecreased = { onProductCountChanged(skincareId, count - 1) },
+                onProductIncreased = { onProductCountChanged(skincareId, count + 1) }
             )
         }
     }
@@ -78,7 +78,7 @@ fun CartItem(
 fun CartItemPreview() {
     JetSkincareTheme {
         CartItem(
-            id = 1,
+            skincareId = 1,
             thumbnail = R.drawable.product_1,
             name = "SKINTIFIC MSH Niacinamide Brightening Moisturizer Moisture Gel Glowing",
             price = 129000,

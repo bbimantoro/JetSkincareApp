@@ -10,12 +10,14 @@
     <string name="content_desc_product_image">Gambar produk</string>
     <string name="content_desc_profile_image">Foto profile</string>
     <string name="add_to_cart">Tambah ke Keranjang: Rp. %d</string>
+    <string name="share_message">Your %1$s order with price Rp. %2$d successfully.</string>
     <string name="price">Rp. %d</string>
     <string name="back">Kembali</string>
     <string name="total_price">Total Harga: %d</string>
     <string name="counter_decrease">—</string>
     <string name="counter_increase">＋</string>
     <string name="not_found">Oops, produk ngga ditemukan.</string>
+    <string name="skincare_order">Skincare orders</string>
 
     <string name="name">Muhammad Amirul Bimantoro</string>
     <string name="email">muhammad_s1sisfo2020@mahasiswa.ung.ac.id</string>

@@ -4,20 +4,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.academy.bangkit.jetskincare.R
@@ -32,7 +26,8 @@ import com.academy.bangkit.jetskincare.ui.components.TopAppBar
 fun CartScreen(
     viewModel: CartViewModel = viewModel(
         factory = ViewModelFactory(Injection.provideRepository())
-    )
+    ),
+    onOrderButtonClicked: (String) -> Unit,
 ) {
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->
         when (uiState) {
@@ -43,10 +38,10 @@ fun CartScreen(
             is UiState.Success -> {
                 CartContent(
                     state = uiState.data,
-                    onProductCountChanged = { id, count ->
-                        viewModel.updateOrderSkincare(id, count)
+                    onProductCountChanged = { skincareId, count ->
+                        viewModel.updateOrderSkincare(skincareId, count)
                     },
-                    onOrderButtonClick = {}
+                    onOrderButtonClicked = onOrderButtonClicked
                 )
             }
 
@@ -55,14 +50,19 @@ fun CartScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CartContent(
     modifier: Modifier = Modifier,
     state: CartState,
-    onProductCountChanged: (id: Int, count: Int) -> Unit,
-    onOrderButtonClick: (String) -> Unit,
+    onProductCountChanged: (id: Long, count: Int) -> Unit,
+    onOrderButtonClicked: (String) -> Unit,
 ) {
+    val shareMessage = stringResource(
+        id = R.string.share_message,
+        state.orderSkincare.joinToString { it.skincare.name },
+        state.totalPrice
+    )
+
     Column(modifier = modifier.fillMaxSize()) {
 
         TopAppBar(title = stringResource(id = R.string.menu_cart))
@@ -74,7 +74,7 @@ fun CartContent(
         ) {
             items(state.orderSkincare, key = { it.skincare.id }) { item ->
                 CartItem(
-                    id = item.skincare.id,
+                    skincareId = item.skincare.id,
                     thumbnail = item.skincare.thumbnail,
                     name = item.skincare.name,
                     price = item.skincare.price * item.count,
@@ -88,7 +88,10 @@ fun CartContent(
         OrderButton(
             text = stringResource(id = R.string.total_price, state.totalPrice),
             enabled = state.orderSkincare.isNotEmpty(),
-            onClick = { },
+            onClick = {
+                onOrderButtonClicked(shareMessage)
+
+            },
             modifier = Modifier.padding(16.dp)
         )
     }

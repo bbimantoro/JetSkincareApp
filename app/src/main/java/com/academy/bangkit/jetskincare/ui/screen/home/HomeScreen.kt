@@ -1,8 +1,12 @@
 package com.academy.bangkit.jetskincare.ui.screen.home
 
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -33,7 +37,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel =
         viewModel(factory = ViewModelFactory(Injection.provideRepository())),
-    navigateToDetail: (Int) -> Unit,
+    navigateToDetail: (Long) -> Unit,
 ) {
     val query by viewModel.query
 
@@ -44,15 +48,20 @@ fun HomeScreen(
             }
 
             is UiState.Success -> {
-                Box(modifier = modifier) {
-                    Search(query = query, onQueryChange = viewModel::search)
+                Column(modifier = modifier) {
+                    Search(
+                        query = query,
+                        onQueryChange = viewModel::search,
+                        modifier = Modifier.background(MaterialTheme.colorScheme.primary)
+                    )
+
                     HomeContent(
                         orderSkincare = uiState.data,
                         modifier = modifier,
                         navigateToDetail = navigateToDetail,
                     )
-
                 }
+
             }
 
             is UiState.Error -> {}
@@ -60,12 +69,14 @@ fun HomeScreen(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeContent(
     orderSkincare: List<OrderSkincare>,
     modifier: Modifier = Modifier,
-    navigateToDetail: (Int) -> Unit,
+    navigateToDetail: (Long) -> Unit,
 ) {
+
     if (orderSkincare.isNotEmpty()) {
         LazyVerticalGrid(
             columns = GridCells.Adaptive(140.dp),
@@ -79,9 +90,11 @@ fun HomeContent(
                     thumbnail = data.skincare.thumbnail,
                     name = data.skincare.name,
                     price = data.skincare.price,
-                    modifier = Modifier.clickable {
-                        navigateToDetail(data.skincare.id)
-                    }
+                    modifier = Modifier
+                        .clickable {
+                            navigateToDetail(data.skincare.id)
+                        }
+                        .animateItemPlacement(tween(durationMillis = 100))
                 )
             }
         }

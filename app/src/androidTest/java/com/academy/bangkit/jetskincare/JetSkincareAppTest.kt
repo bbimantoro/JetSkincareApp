@@ -16,7 +16,6 @@ import com.academy.bangkit.jetskincare.ui.navigation.Screen
 import com.academy.bangkit.jetskincare.ui.theme.JetSkincareTheme
 import com.academy.bangkit.jetskincare.utils.assertCurrentRouteName
 import com.academy.bangkit.jetskincare.utils.onNodeWithStringId
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -77,7 +76,7 @@ class JetSkincareAppTest {
         navController.assertCurrentRouteName(Screen.DetailSkincare.route)
         composeTestRule.onNodeWithStringId(R.string.counter_increase).performClick()
         composeTestRule.onNodeWithContentDescription("Add to cart").performClick()
-         navController.assertCurrentRouteName(Screen.Cart.route)
+        navController.assertCurrentRouteName(Screen.Cart.route)
         composeTestRule.onNodeWithStringId(R.string.menu_home).performClick()
         navController.assertCurrentRouteName(Screen.Home.route)
     }

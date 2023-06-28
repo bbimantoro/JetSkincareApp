@@ -1,10 +1,13 @@
 package com.academy.bangkit.jetskincare
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -42,12 +45,17 @@ fun JetSkincareApp(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screen.Home.route) {
-                HomeScreen(navigateToDetail = { id ->
-                    navController.navigate(Screen.DetailSkincare.createRoute(id))
+                HomeScreen(navigateToDetail = { skincareId ->
+                    navController.navigate(Screen.DetailSkincare.createRoute(skincareId))
                 })
             }
             composable(Screen.Cart.route) {
-                CartScreen()
+                val context = LocalContext.current
+                CartScreen(
+                    onOrderButtonClicked = { message ->
+                        shareOrder(context, message)
+                    }
+                )
             }
 
             composable(Screen.Profile.route) {
@@ -56,13 +64,13 @@ fun JetSkincareApp(
 
             composable(
                 route = Screen.DetailSkincare.route,
-                arguments = listOf(navArgument("id") {
-                    type = NavType.IntType
+                arguments = listOf(navArgument("skincareId") {
+                    type = NavType.LongType
                 }),
             ) {
-                val id = it.arguments?.getInt("id") ?: -1
+                val id = it.arguments?.getLong("skincareId") ?: -1L
                 DetailScreen(
-                    id = id,
+                    skincareId = id,
                     navigateBack = {
                         navController.navigateUp()
                     },
@@ -75,10 +83,20 @@ fun JetSkincareApp(
                             launchSingleTop = true
                             restoreState = true
                         }
-                    },
+                    }
                 )
             }
         }
     }
+}
+
+private fun shareOrder(context: Context, summary: String) {
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.skincare_order))
+        putExtra(Intent.EXTRA_TEXT, summary)
+    }
+
+    context.startActivity(Intent.createChooser(intent, context.getString(R.string.skincare_order)))
 }
 

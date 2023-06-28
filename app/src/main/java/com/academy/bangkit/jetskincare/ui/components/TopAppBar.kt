@@ -35,6 +35,6 @@ fun TopAppBar(title: String, modifier: Modifier = Modifier) {
 @Composable
 fun TopAppBarPreview() {
     JetSkincareTheme {
-        TopAppBar(title = "")
+        TopAppBar(title = stringResource(id = R.string.menu_cart))
     }
 }

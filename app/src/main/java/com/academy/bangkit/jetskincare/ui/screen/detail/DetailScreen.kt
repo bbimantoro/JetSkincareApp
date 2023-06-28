@@ -24,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -49,7 +48,7 @@ import com.academy.bangkit.jetskincare.ui.theme.JetSkincareTheme
 
 @Composable
 fun DetailScreen(
-    id: Int,
+    skincareId: Long,
     viewModel: DetailViewModel = viewModel(
         factory = ViewModelFactory(
             Injection.provideRepository()
@@ -61,7 +60,7 @@ fun DetailScreen(
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->
         when (uiState) {
             is UiState.Loading -> {
-                viewModel.getSkincareById(id = id)
+                viewModel.getSkincareById(skincareId = skincareId)
             }
 
             is UiState.Success -> {
@@ -118,6 +117,7 @@ fun DetailContent(
                         .fillMaxHeight()
                         .clip(RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
                 )
+
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = stringResource(id = R.string.back),
@@ -126,6 +126,7 @@ fun DetailContent(
                         .clickable { onBackClick() }
                 )
             }
+
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(16.dp),
@@ -139,12 +140,14 @@ fun DetailContent(
                         .align(Alignment.Start)
                         .paddingFromBaseline(bottom = 14.dp)
                 )
+
                 Text(
                     text = name,
                     textAlign = TextAlign.Start,
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.paddingFromBaseline(bottom = 20.dp)
                 )
+
                 Text(
                     text = stringResource(id = R.string.section_description),
                     style = MaterialTheme.typography.titleMedium.copy(
@@ -154,36 +157,37 @@ fun DetailContent(
                         .align(Alignment.Start)
                         .paddingFromBaseline(bottom = 8.dp)
                 )
+
                 Text(
                     text = desc,
                     textAlign = TextAlign.Justify,
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
-            Spacer(
+        }
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(2.dp)
+                .background(Color.LightGray)
+        )
+        Column(modifier = Modifier.padding(16.dp)) {
+            ProductCounter(
+                skincareId = 1,
+                orderCount = orderCount,
+                onProductIncreased = { orderCount++ },
+                onProductDecreased = { if (orderCount > 0) orderCount-- },
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(2.dp)
-                    .background(Color.LightGray)
+                    .align(Alignment.CenterHorizontally)
+                    .padding(bottom = 16.dp)
             )
-            Column(modifier = Modifier.padding(16.dp)) {
-                ProductCounter(
-                    id = 1,
-                    orderCount = orderCount,
-                    onProductIncreased = { orderCount++ },
-                    onProductDecreased = { if (orderCount > 0) orderCount-- },
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(bottom = 16.dp)
-                )
 
-                totalPrice = price * orderCount
-                OrderButton(
-                    text = stringResource(id = R.string.add_to_cart, totalPrice),
-                    enabled = orderCount > 0,
-                    onClick = { onAddToCart(orderCount) }
-                )
-            }
+            totalPrice = price * orderCount
+            OrderButton(
+                text = stringResource(id = R.string.add_to_cart, totalPrice),
+                enabled = orderCount > 0,
+                onClick = { onAddToCart(orderCount) }
+            )
         }
     }
 }

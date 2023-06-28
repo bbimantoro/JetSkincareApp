@@ -15,10 +15,10 @@ class DetailViewModel(private val skincareRepository: SkincareRepository) : View
         MutableStateFlow(UiState.Loading)
     val uiState: StateFlow<UiState<OrderSkincare>> get() = _uiState
 
-    fun getSkincareById(id: Int) {
+    fun getSkincareById(skincareId: Long) {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
-            _uiState.value = UiState.Success(skincareRepository.getOrderSkincareById(id))
+            _uiState.value = UiState.Success(skincareRepository.getOrderSkincareById(skincareId))
         }
     }
 

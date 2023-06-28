@@ -25,9 +25,9 @@ class CartViewModel(
         }
     }
 
-    fun updateOrderSkincare(id: Int, count: Int) {
+    fun updateOrderSkincare(skincareId: Long, count: Int) {
         viewModelScope.launch {
-            skincareRepository.updateOrderSkincare(id, count)
+            skincareRepository.updateOrderSkincare(skincareId, count)
                 .collect { isUpdated ->
                     if (isUpdated) {
                         getAddedOrderSkincare()

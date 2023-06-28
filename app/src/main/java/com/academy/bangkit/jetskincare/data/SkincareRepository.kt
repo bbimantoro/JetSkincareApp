@@ -19,13 +19,13 @@ class SkincareRepository {
 
     fun getAllSkincare(): Flow<List<OrderSkincare>> = flowOf(listSkincare)
 
-    fun getOrderSkincareById(id: Int): OrderSkincare = listSkincare.first {
-        it.skincare.id == id
+    fun getOrderSkincareById(skincareId: Long): OrderSkincare = listSkincare.first {
+        it.skincare.id == skincareId
     }
 
 
-    fun updateOrderSkincare(id: Int, newCount: Int): Flow<Boolean> {
-        val index = listSkincare.indexOfFirst { it.skincare.id == id }
+    fun updateOrderSkincare(skincareId: Long, newCount: Int): Flow<Boolean> {
+        val index = listSkincare.indexOfFirst { it.skincare.id == skincareId }
         val result = if (index >= 0) {
             val orderSkincare = listSkincare[index]
             listSkincare[index] =
