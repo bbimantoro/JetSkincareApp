@@ -17,9 +17,9 @@ import com.academy.bangkit.jetskincare.ui.theme.JetSkincareTheme
 @Composable
 fun OrderButton(
     text: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    onClick: () -> Unit
 ) {
     Button(
         onClick = onClick,

@@ -25,13 +25,13 @@ import com.academy.bangkit.jetskincare.ui.theme.JetSkincareTheme
 
 @Composable
 fun CartItem(
-    modifier: Modifier = Modifier,
     skincareId: Long,
     thumbnail: Int,
     name: String,
     price: Int,
     count: Int,
     onProductCountChanged: (id: Long, count: Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
 
     Row(modifier = modifier.fillMaxWidth()) {

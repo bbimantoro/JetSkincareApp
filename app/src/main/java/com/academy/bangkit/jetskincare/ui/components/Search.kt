@@ -23,8 +23,8 @@ import com.academy.bangkit.jetskincare.ui.theme.JetSkincareTheme
 @Composable
 fun Search(
     query: String,
-    modifier: Modifier = Modifier,
     onQueryChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     SearchBar(
         query = query,

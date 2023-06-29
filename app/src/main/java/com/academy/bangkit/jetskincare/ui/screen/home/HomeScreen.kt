@@ -35,9 +35,9 @@ import com.academy.bangkit.jetskincare.ui.components.SkincareItem
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    navigateToDetail: (Long) -> Unit,
     viewModel: HomeViewModel =
         viewModel(factory = ViewModelFactory(Injection.provideRepository())),
-    navigateToDetail: (Long) -> Unit,
 ) {
     val query by viewModel.query
 
@@ -73,8 +73,8 @@ fun HomeScreen(
 @Composable
 fun HomeContent(
     orderSkincare: List<OrderSkincare>,
-    modifier: Modifier = Modifier,
     navigateToDetail: (Long) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
 
     if (orderSkincare.isNotEmpty()) {
@@ -85,7 +85,7 @@ fun HomeContent(
             horizontalArrangement = Arrangement.spacedBy(14.dp),
             modifier = modifier.testTag("SkincareList")
         ) {
-            items(orderSkincare) { data ->
+            items(orderSkincare, key = { it.skincare.id }) { data ->
                 SkincareItem(
                     thumbnail = data.skincare.thumbnail,
                     name = data.skincare.name,

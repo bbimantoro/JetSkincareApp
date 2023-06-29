@@ -24,10 +24,10 @@ import com.academy.bangkit.jetskincare.ui.components.TopAppBar
 
 @Composable
 fun CartScreen(
+    onOrderButtonClicked: (String) -> Unit,
     viewModel: CartViewModel = viewModel(
         factory = ViewModelFactory(Injection.provideRepository())
     ),
-    onOrderButtonClicked: (String) -> Unit,
 ) {
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->
         when (uiState) {
@@ -52,10 +52,10 @@ fun CartScreen(
 
 @Composable
 fun CartContent(
-    modifier: Modifier = Modifier,
     state: CartState,
     onProductCountChanged: (id: Long, count: Int) -> Unit,
     onOrderButtonClicked: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val shareMessage = stringResource(
         id = R.string.share_message,

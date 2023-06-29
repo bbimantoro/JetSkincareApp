@@ -49,13 +49,13 @@ import com.academy.bangkit.jetskincare.ui.theme.JetSkincareTheme
 @Composable
 fun DetailScreen(
     skincareId: Long,
+    navigateBack: () -> Unit,
+    navigateToCart: () -> Unit,
     viewModel: DetailViewModel = viewModel(
         factory = ViewModelFactory(
             Injection.provideRepository()
         )
     ),
-    navigateBack: () -> Unit,
-    navigateToCart: () -> Unit,
 ) {
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->
         when (uiState) {
@@ -86,7 +86,6 @@ fun DetailScreen(
 
 @Composable
 fun DetailContent(
-    modifier: Modifier = Modifier,
     @DrawableRes thumbnail: Int,
     name: String,
     desc: String,
@@ -94,6 +93,7 @@ fun DetailContent(
     count: Int,
     onBackClick: () -> Unit,
     onAddToCart: (count: Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var totalPrice by rememberSaveable {
         mutableStateOf(0)
